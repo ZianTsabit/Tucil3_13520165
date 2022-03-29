@@ -1,18 +1,22 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.net.ConnectException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Puzzle {
     
     private int [][] puzzle;
-    private int [] content;
-    // private File inputFile;
+    private int [] currentState;
     // private Node elements;
     
+    public Puzzle(){
+
+        this.puzzle = new int[4][4];
+        
+        this.currentState = new int[16];
+
+    }
+
     public Puzzle(String pathFile) throws FileNotFoundException{
 
         this.puzzle = new int[4][4];
@@ -27,9 +31,12 @@ public class Puzzle {
                 }
             }
         }
+
+        this.updateCurrentState();
+
     }
 
-    public void printPuzzle(){
+    public void printPuzzle() { 
 
         for(int i = 0; i < 4 ; i++){
             for(int j = 0; j < 4; j++){
@@ -46,34 +53,56 @@ public class Puzzle {
 
     }
 
-    // Udah bener
-    public int kurangI(){
-        
-        int kurangi = 0;
-        this.content = new int[16];
+    public void updateCurrentState() {
+
+        this.currentState = new int[16];
         int k = 0;
 
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
-                this.content[k] = this.puzzle[i][j]; 
+                this.currentState[k] = this.puzzle[i][j]; 
                 k++;   
             }
         }
 
-        for(int i = 0; i < this.content.length; i++){
+
+    }
+
+    // Udah bener
+    public int kurangI(){
+        
+        int kurangi = 0;
+        int [] content = new int[16];
+        int k = 0;
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                content[k] = this.puzzle[i][j]; 
+                k++;   
+            }
+        }
+
+        for(int i = 0; i < content.length; i++){
             for(int j = 0; j < i ; j++){
-                if(this.content[j] > this.content[i]){
+                if(content[j] > content[i]){
                     kurangi++;
                 }
             }
         }
+
+        int X = 0;
+
+        if(content[1] == 16 || content[3] == 16 || content[4] == 16 || content[6] == 16 
+        || content[9] == 16 || content[11] == 16 || content[12] == 16|| content[14] == 16){
+            X = 1;
+        }
         
-        return kurangi;
+        return kurangi + X;
     }
 
-    public Boolean isReachable(int KurangI){
+    public Boolean isReachable(){
 
-        if(KurangI % 2 == 0){
+        if(this.kurangI() % 2 == 0){
             return true;
         } else {
             return false;
@@ -81,13 +110,15 @@ public class Puzzle {
 
     }
 
-    public void slideUp(){
+    public Puzzle slideUp(){
+
+        Puzzle newPuzzle = new Puzzle();
 
         Boolean done = false; 
 
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4 ; j++){
-                
+
                 if(this.puzzle[i][j] == 16 && i != 3){
                     int temp;
                     int e1 = this.puzzle[i+1][j];
@@ -97,16 +128,31 @@ public class Puzzle {
                     this.puzzle[i][j] = temp;
                     done = true;
                     break;
-                }
-                
+                }   
             }
             if(done){
                 break;
             }
         }
+
+        this.updateCurrentState();
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+
+                newPuzzle.puzzle[i][j] = this.puzzle[i][j]; 
+
+            }
+        }
+
+        newPuzzle.updateCurrentState();
+
+        return newPuzzle;
     }
 
-    public void slideDown(){
+    public Puzzle slideDown(){
+
+        Puzzle newPuzzle = new Puzzle();
 
         Boolean done = false; 
 
@@ -129,10 +175,26 @@ public class Puzzle {
                 break;
             }
         }
+
+        this.updateCurrentState();
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+
+                newPuzzle.puzzle[i][j] = this.puzzle[i][j]; 
+
+            }
+        }
+
+        newPuzzle.updateCurrentState();
+
+        return newPuzzle;
     }
 
-    public void slideRight(){
+    public Puzzle slideRight(){
         
+        Puzzle newPuzzle = new Puzzle();
+
         Boolean done = false;
         
         for(int i = 0; i < 4; i++){
@@ -154,10 +216,25 @@ public class Puzzle {
                 break;
             }
         }
+
+        this.updateCurrentState();
         
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+
+                newPuzzle.puzzle[i][j] = this.puzzle[i][j]; 
+
+            }
+        }
+
+        newPuzzle.updateCurrentState();
+
+        return newPuzzle;
     }
 
-    public void slideLeft(){
+    public Puzzle slideLeft(){
+
+        Puzzle newPuzzle = new Puzzle();
 
         Boolean done = false;
         
@@ -181,9 +258,46 @@ public class Puzzle {
             }
         }
         
+        this.updateCurrentState();
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+
+                newPuzzle.puzzle[i][j] = this.puzzle[i][j]; 
+
+            }
+        }
+
+        newPuzzle.updateCurrentState();
+
+        return newPuzzle;
+
+    }
+
+    // untuk debugging
+    public void printCurrentState() {
+
+        for(int i = 0; i < 16 ; i++){
+            System.out.print(this.currentState[i] + " ");
+            
+        }
+        System.out.println();
+    }
+
+    public int hitungCost(){
+
+        int gP = 0;
+
+        for(int i = 0; i < 16; i++){
+
+            if(this.currentState[i] != i+1){
+                gP++;
+            }
+
+        }
+        return gP;
     }
 
 
-
-
 }
+
