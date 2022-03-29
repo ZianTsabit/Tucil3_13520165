@@ -2,12 +2,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.ConnectException;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Puzzle {
     
     private int [][] puzzle;
+    private int [] content;
     // private File inputFile;
     // private Node elements;
     
@@ -32,34 +34,40 @@ public class Puzzle {
         for(int i = 0; i < 4 ; i++){
             for(int j = 0; j < 4; j++){
 
-                System.out.print(this.puzzle[i][j] + " ");
-            
+                if(this.puzzle[i][j] == 16){
+                    System.out.print("-" + " ");
+                } else {
+                    System.out.print(this.puzzle[i][j] + " ");
+                }
+                
             }
             System.out.println();
         }
 
     }
 
+    // Udah bener
     public int kurangI(){
         
         int kurangi = 0;
-    
+        this.content = new int[16];
+        int k = 0;
+
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
-                
-                int current = this.puzzle[i][j];
+                this.content[k] = this.puzzle[i][j]; 
+                k++;   
+            }
+        }
 
-                for(int m = 0; m < 4; m++){
-                    for(int n = 0; n < 4; n++){
-
-                        if(n > j && this.puzzle[m][n] < current){
-                            kurangi++;
-        
-                        }     
-                    }
+        for(int i = 0; i < this.content.length; i++){
+            for(int j = 0; j < i ; j++){
+                if(this.content[j] > this.content[i]){
+                    kurangi++;
                 }
             }
         }
+        
         return kurangi;
     }
 
@@ -71,6 +79,108 @@ public class Puzzle {
             return false;
         }
 
+    }
+
+    public void slideUp(){
+
+        Boolean done = false; 
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4 ; j++){
+                
+                if(this.puzzle[i][j] == 16 && i != 3){
+                    int temp;
+                    int e1 = this.puzzle[i+1][j];
+                    int blank = this.puzzle[i][j];
+                    temp = e1;
+                    this.puzzle[i+1][j] = blank;
+                    this.puzzle[i][j] = temp;
+                    done = true;
+                    break;
+                }
+                
+            }
+            if(done){
+                break;
+            }
+        }
+    }
+
+    public void slideDown(){
+
+        Boolean done = false; 
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4 ; j++){
+                
+                if(this.puzzle[i][j] == 16 && i != 0){
+                    int temp;
+                    int e1 = this.puzzle[i-1][j];
+                    int blank = this.puzzle[i][j];
+                    temp = e1;
+                    this.puzzle[i-1][j] = blank;
+                    this.puzzle[i][j] = temp;
+                    done = true;
+                    break;
+                }
+                
+            }
+            if(done){
+                break;
+            }
+        }
+    }
+
+    public void slideRight(){
+        
+        Boolean done = false;
+        
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4 ; j++){
+                
+                if(this.puzzle[i][j] == 16 && j != 0){
+                    int temp;
+                    int e1 = this.puzzle[i][j-1];
+                    int blank = this.puzzle[i][j];
+                    temp = e1;
+                    this.puzzle[i][j-1] = blank;
+                    this.puzzle[i][j] = temp;
+                    done = true;
+                    break;
+                }
+                
+            }
+            if(done){
+                break;
+            }
+        }
+        
+    }
+
+    public void slideLeft(){
+
+        Boolean done = false;
+        
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4 ; j++){
+                
+                if(this.puzzle[i][j] == 16 && j != 3){
+                    int temp;
+                    int e1 = this.puzzle[i][j+1];
+                    int blank = this.puzzle[i][j];
+                    temp = e1;
+                    this.puzzle[i][j+1] = blank;
+                    this.puzzle[i][j] = temp;
+                    done = true;
+                    break;
+                }
+                
+            }
+            if(done){
+                break;
+            }
+        }
+        
     }
 
 
