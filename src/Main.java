@@ -1,29 +1,22 @@
 import java.io.FileNotFoundException;
+import java.util.PriorityQueue;
 
 public class Main {
     
+    static int [] finalState = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
     public static void main(String args[]) throws FileNotFoundException{
 
-        Puzzle puzzle1 = new Puzzle("../test/test_01.txt");
+        PriorityQueue<Node> pq = new PriorityQueue<>();
 
-        puzzle1.printPuzzle();
-        puzzle1.printCurrentState();
+        Node puzzle1 = new Node("../test/test_01.txt");
 
-        int kurangI = puzzle1.kurangI();
-        System.out.println("Kurang(i) dari puzzle ini adalah : " + kurangI);
-        System.out.println("Cost untuk puzzle ini adalah : " + puzzle1.hitungCost());
+        pq.add(puzzle1);
 
-        Puzzle puzzle2 = new Puzzle();
+        Node first = new Node();
+        first = pq.remove();
 
-        System.out.println("============================================");
-
+        first.get_Puzzle().printPuzzle();
         
-
-        System.out.println("============================================");
-
-        puzzle2 = puzzle1.slideUp();
-        puzzle2.printPuzzle();
-        puzzle2.printCurrentState();
         
 
     }

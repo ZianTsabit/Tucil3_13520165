@@ -298,6 +298,32 @@ public class Puzzle {
         return gP;
     }
 
+    public int get_x_blank(){
 
+        int x = -1;
+        
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                if(this.puzzle[i][j] == 16){
+                    x = i;
+                }
+            }
+        }
+        return x;
+    }
+
+    public int get_y_blank(){
+
+        int y = -1;
+        
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                if(this.puzzle[i][j] == 16){
+                    y = j;
+                }
+            }
+        }
+        return y;
+    }
 }
 

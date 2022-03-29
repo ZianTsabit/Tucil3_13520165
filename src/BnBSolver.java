@@ -1,6 +1,17 @@
+import java.util.PriorityQueue;
+
 public class BnBSolver {
     
-    static int [] finalState = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    private PriorityQueue<Node> pq;
+
+    public BnBSolver(){
+
+        this.pq = new PriorityQueue<Node>();
+
+        
+    }
+    
+
 
 
 }
