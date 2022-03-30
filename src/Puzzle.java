@@ -233,7 +233,7 @@ public class Puzzle {
 
         for(int i = 0; i < 16; i++){
 
-            if(this.currentState[i] != i+1){
+            if(this.currentState[i] != 16 && this.currentState[i] != i+1){
                 gP++;
             }
 

@@ -40,12 +40,14 @@ public class Main {
 
         puzzle.printPuzzle();
 
+        
+
+        System.out.println("----------------- AFTER ------------------");
+
         BnBSolver solver = new BnBSolver();
         Puzzle.DIRECTION[] gerakan = {Puzzle.DIRECTION.RIGHT, Puzzle.DIRECTION.LEFT, Puzzle.DIRECTION.DOWN, Puzzle.DIRECTION.UP};
 
         Puzzle solvedPuzzle = solver.solve(puzzle, gerakan);
-
-        System.out.println("----------------- AFTER ------------------");
 
         solvedPuzzle.printPuzzle();
         
