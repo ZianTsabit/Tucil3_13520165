@@ -2,14 +2,11 @@ import java.util.PriorityQueue;
 
 public class BnBSolver {
     
-    private PriorityQueue<Node> pq;
+    private final PriorityQueue<Puzzle> frontiers = new PriorityQueue<Puzzle>(new PuzzleComparator());
 
-    public BnBSolver(){
+    // public Puzzle solve(Puzzle puzzleToSolve,  
 
-        this.pq = new PriorityQueue<Node>();
 
-        
-    }
     
 
 

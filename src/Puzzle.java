@@ -5,8 +5,13 @@ import java.util.Scanner;
 
 public class Puzzle {
     
-    private int [][] puzzle;
+    public enum DIRECTION {UP, DOWN, LEFT, RIGHT}
+
+    private final int [][] puzzle;
+    private int [][] correctPuzzle;
     private int [] currentState;
+    private int cost;
+    private int blankX, blankY;
     // private Node elements;
     
     public Puzzle(){
@@ -34,6 +39,16 @@ public class Puzzle {
 
         this.updateCurrentState();
 
+    }
+
+    public Puzzle(int[][] puzzle, int[][] correctPuzzle) {
+        this.puzzle = puzzle;
+        this.correctPuzzle = correctPuzzle;
+        
+        this.updateCurrentState();
+
+        this.get_x_blank();
+        this.get_y_blank();
     }
 
     public void printPuzzle() { 
@@ -68,6 +83,84 @@ public class Puzzle {
 
     }
 
+    public void setTile(int x, int y, int tile){
+        this.puzzle[x][y] = tile;
+    }
+
+    public int getTile(int x, int y){
+        return this.puzzle[x][y];
+    }
+
+    public void swap(int x1, int y1, int x2, int y2){
+
+        int previous = getTile(x1, y1);
+
+        setTile(x1, y1, getTile(x2, y2));
+
+        setTile(x2, y2, previous);
+        blankY = y2;
+        blankX = x2;
+    }
+
+    public void move(DIRECTION direction) {
+        
+        switch (direction) {
+            case UP:
+                swap(blankX, blankY, (blankX - 1), blankY);
+                
+                break;
+            case DOWN:
+                swap(blankX, blankY, (blankX + 1), blankY);
+                
+                break;
+            case LEFT:
+                swap(blankX, blankY, blankX, (blankY - 1));
+                
+                break;
+            case RIGHT:
+                swap(blankX, blankY, blankX, (blankY + 1));
+                
+                break;
+        }
+        this.updateCurrentState();
+    }
+
+    public boolean canMove(DIRECTION direction) {
+        switch (direction) {
+            case UP:
+                if (blankX != 0) {
+                    return true;
+                }
+                break;
+            case DOWN:
+                if (blankX != puzzle.length - 1) {
+                    return true;
+                }
+                break;
+            case LEFT:
+                if (blankY != 0) {
+                    return true;
+                }
+                break;
+            case RIGHT:
+                if (blankY != puzzle[blankX].length - 1) {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    public boolean isSolved() {
+        for (int y = 0; y < puzzle.length; ++y) {
+            for (int x = 0; x < puzzle[y].length; ++x) {
+                if (puzzle[y][x] != correctPuzzle[y][x]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     // Udah bener
     public int kurangI(){
         
@@ -110,170 +203,6 @@ public class Puzzle {
 
     }
 
-    public Puzzle slideUp(){
-
-        Puzzle newPuzzle = new Puzzle();
-
-        Boolean done = false; 
-
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4 ; j++){
-
-                if(this.puzzle[i][j] == 16 && i != 3){
-                    int temp;
-                    int e1 = this.puzzle[i+1][j];
-                    int blank = this.puzzle[i][j];
-                    temp = e1;
-                    this.puzzle[i+1][j] = blank;
-                    this.puzzle[i][j] = temp;
-                    done = true;
-                    break;
-                }   
-            }
-            if(done){
-                break;
-            }
-        }
-
-        this.updateCurrentState();
-
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-
-                newPuzzle.puzzle[i][j] = this.puzzle[i][j]; 
-
-            }
-        }
-
-        newPuzzle.updateCurrentState();
-
-        return newPuzzle;
-    }
-
-    public Puzzle slideDown(){
-
-        Puzzle newPuzzle = new Puzzle();
-
-        Boolean done = false; 
-
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4 ; j++){
-                
-                if(this.puzzle[i][j] == 16 && i != 0){
-                    int temp;
-                    int e1 = this.puzzle[i-1][j];
-                    int blank = this.puzzle[i][j];
-                    temp = e1;
-                    this.puzzle[i-1][j] = blank;
-                    this.puzzle[i][j] = temp;
-                    done = true;
-                    break;
-                }
-                
-            }
-            if(done){
-                break;
-            }
-        }
-
-        this.updateCurrentState();
-
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-
-                newPuzzle.puzzle[i][j] = this.puzzle[i][j]; 
-
-            }
-        }
-
-        newPuzzle.updateCurrentState();
-
-        return newPuzzle;
-    }
-
-    public Puzzle slideRight(){
-        
-        Puzzle newPuzzle = new Puzzle();
-
-        Boolean done = false;
-        
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4 ; j++){
-                
-                if(this.puzzle[i][j] == 16 && j != 0){
-                    int temp;
-                    int e1 = this.puzzle[i][j-1];
-                    int blank = this.puzzle[i][j];
-                    temp = e1;
-                    this.puzzle[i][j-1] = blank;
-                    this.puzzle[i][j] = temp;
-                    done = true;
-                    break;
-                }
-                
-            }
-            if(done){
-                break;
-            }
-        }
-
-        this.updateCurrentState();
-        
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-
-                newPuzzle.puzzle[i][j] = this.puzzle[i][j]; 
-
-            }
-        }
-
-        newPuzzle.updateCurrentState();
-
-        return newPuzzle;
-    }
-
-    public Puzzle slideLeft(){
-
-        Puzzle newPuzzle = new Puzzle();
-
-        Boolean done = false;
-        
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4 ; j++){
-                
-                if(this.puzzle[i][j] == 16 && j != 3){
-                    int temp;
-                    int e1 = this.puzzle[i][j+1];
-                    int blank = this.puzzle[i][j];
-                    temp = e1;
-                    this.puzzle[i][j+1] = blank;
-                    this.puzzle[i][j] = temp;
-                    done = true;
-                    break;
-                }
-                
-            }
-            if(done){
-                break;
-            }
-        }
-        
-        this.updateCurrentState();
-
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-
-                newPuzzle.puzzle[i][j] = this.puzzle[i][j]; 
-
-            }
-        }
-
-        newPuzzle.updateCurrentState();
-
-        return newPuzzle;
-
-    }
-
     // untuk debugging
     public void printCurrentState() {
 
@@ -284,7 +213,7 @@ public class Puzzle {
         System.out.println();
     }
 
-    public int hitungCost(){
+    public void hitungCost(){
 
         int gP = 0;
 
@@ -295,10 +224,20 @@ public class Puzzle {
             }
 
         }
-        return gP;
+        this.cost = gP;
     }
 
-    public int get_x_blank(){
+    public void set_cost(int _cost){
+        this.cost = this.cost + _cost;
+    }
+
+    public int get_cost(){
+
+        return this.cost;
+
+    }
+
+    public void get_x_blank(){
 
         int x = -1;
         
@@ -309,10 +248,10 @@ public class Puzzle {
                 }
             }
         }
-        return x;
+        this.blankX = x;
     }
 
-    public int get_y_blank(){
+    public void get_y_blank(){
 
         int y = -1;
         
@@ -323,7 +262,8 @@ public class Puzzle {
                 }
             }
         }
-        return y;
+        this.blankY =  y;
     }
+
 }
 
