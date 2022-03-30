@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Puzzle {
@@ -49,6 +50,19 @@ public class Puzzle {
 
         this.get_x_blank();
         this.get_y_blank();
+    }
+
+    public Puzzle(Puzzle newPuzzle) {
+        puzzle = new int[newPuzzle.puzzle.length][newPuzzle.puzzle[0].length];
+        
+        for (int i = 0; i < puzzle.length; i++) {
+            puzzle[i] = Arrays.copyOf(newPuzzle.puzzle[i], puzzle[i].length);
+        }
+        correctPuzzle = newPuzzle.correctPuzzle;
+        blankX = newPuzzle.blankX;
+        blankY = newPuzzle.blankY;
+
+        this.updateCurrentState();
     }
 
     public void printPuzzle() { 
@@ -213,7 +227,7 @@ public class Puzzle {
         System.out.println();
     }
 
-    public void hitungCost(){
+    public int get_cost(){
 
         int gP = 0;
 
@@ -225,16 +239,12 @@ public class Puzzle {
 
         }
         this.cost = gP;
-    }
-
-    public void set_cost(int _cost){
-        this.cost = this.cost + _cost;
-    }
-
-    public int get_cost(){
 
         return this.cost;
+    }
 
+    public void inc_cost(){
+        this.cost++;
     }
 
     public void get_x_blank(){

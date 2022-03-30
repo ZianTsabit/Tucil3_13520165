@@ -1,12 +1,56 @@
 import java.io.FileNotFoundException;
+import java.security.GeneralSecurityException;
 import java.util.PriorityQueue;
 
 public class Main {
     
-    static int [] finalState = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    private static int [][] buatCorrectPuzzle(int xsize, int ysize){
+
+        int [][] correctPuzzle = new int [xsize][ysize];
+
+        int counter = 1;
+
+        for(int i = 0; i < xsize; i++){
+            for(int j = 0; j < ysize; j++){
+
+                correctPuzzle[i][j] = counter;
+                counter++;
+
+            }
+        }
+
+        return correctPuzzle;
+
+    }
     public static void main(String args[]) throws FileNotFoundException{
 
+        PuzzleLoader puzzleloader = new PuzzleLoader();
+        Puzzle puzzle;
+
+        int [][] correctPuzzle;
+        int [][] puzzleToSolve;
+
+        puzzleToSolve = puzzleloader.load("../test/test_01.txt");
         
+        correctPuzzle = buatCorrectPuzzle(puzzleToSolve.length, puzzleToSolve[0].length);
+
+        puzzle = new Puzzle(puzzleToSolve, correctPuzzle);
+
+        System.out.println("----------------- BEFORE ------------------");
+
+        puzzle.printPuzzle();
+
+        BnBSolver solver = new BnBSolver();
+        Puzzle.DIRECTION[] gerakan = {Puzzle.DIRECTION.RIGHT, Puzzle.DIRECTION.LEFT, Puzzle.DIRECTION.DOWN, Puzzle.DIRECTION.UP};
+
+        Puzzle solvedPuzzle = solver.solve(puzzle, gerakan);
+
+        System.out.println("----------------- AFTER ------------------");
+
+        solvedPuzzle.printPuzzle();
+        
+
+
     }
 
 
