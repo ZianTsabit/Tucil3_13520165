@@ -25,14 +25,10 @@ public class BnBSolver {
                     Puzzle newPuzzle = new Puzzle(puzzle);
 
                     newPuzzle.move(gerakan[i]);
-                    newPuzzle.inc_cost();
-
                     frontiers.add(newPuzzle);
 
                 }
-
             }
-
         }
         return null;
     }  

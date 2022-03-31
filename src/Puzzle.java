@@ -1,8 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Puzzle {
     
@@ -23,30 +19,12 @@ public class Puzzle {
 
     }
 
-    public Puzzle(String pathFile) throws FileNotFoundException{
-
-        this.puzzle = new int[4][4];
-
-        Scanner sc = new Scanner(new BufferedReader(new FileReader(pathFile)));
-    
-        while(sc.hasNextLine()) {
-            for (int i=0; i<this.puzzle.length; i++) {
-                String[] line = sc.nextLine().trim().split(" ");
-                for (int j=0; j<line.length; j++) {
-                    puzzle[i][j] = Integer.parseInt(line[j]);
-                }
-            }
-        }
-
-        this.updateCurrentState();
-
-    }
-
     public Puzzle(int[][] puzzle, int[][] correctPuzzle) {
         this.puzzle = puzzle;
         this.correctPuzzle = correctPuzzle;
         
         this.updateCurrentState();
+        this.hitung_cost();
 
         this.get_x_blank();
         this.get_y_blank();
@@ -63,6 +41,7 @@ public class Puzzle {
         blankY = newPuzzle.blankY;
 
         this.updateCurrentState();
+        this.hitung_cost();
     }
 
     public void printPuzzle() { 
@@ -227,20 +206,23 @@ public class Puzzle {
         System.out.println();
     }
 
-    public int get_cost(){
+    public void hitung_cost(){
 
         int gP = 0;
 
         for(int i = 0; i < 16; i++){
 
-            if(this.currentState[i] != 16 && this.currentState[i] != i+1){
+            if(this.currentState[i] != i + 1 && this.currentState[i] != 16){
                 gP++;
             }
-
         }
         this.cost = gP;
+    }
+
+    public int get_cost(){
 
         return this.cost;
+
     }
 
     public void inc_cost(){
