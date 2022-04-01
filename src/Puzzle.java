@@ -6,7 +6,6 @@ public class Puzzle {
 
     private final int [][] puzzle;
     private int [][] correctPuzzle;
-    private int [] currentState;
     private int cost;
     private int blankX, blankY;
     // private Node elements;
@@ -15,16 +14,13 @@ public class Puzzle {
 
         this.puzzle = new int[4][4];
         
-        this.currentState = new int[16];
-
     }
 
     public Puzzle(int[][] puzzle, int[][] correctPuzzle) {
         this.puzzle = puzzle;
         this.correctPuzzle = correctPuzzle;
         
-        this.updateCurrentState();
-        this.hitung_cost();
+        this.cost = hitung_cost(puzzle);
 
         this.get_x_blank();
         this.get_y_blank();
@@ -40,8 +36,7 @@ public class Puzzle {
         blankX = newPuzzle.blankX;
         blankY = newPuzzle.blankY;
 
-        this.updateCurrentState();
-        this.hitung_cost();
+        this.cost = hitung_cost(newPuzzle);
     }
 
     public void printPuzzle() { 
@@ -58,21 +53,6 @@ public class Puzzle {
             }
             System.out.println();
         }
-
-    }
-
-    public void updateCurrentState() {
-
-        this.currentState = new int[16];
-        int k = 0;
-
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
-                this.currentState[k] = this.puzzle[i][j]; 
-                k++;   
-            }
-        }
-
 
     }
 
@@ -115,7 +95,7 @@ public class Puzzle {
                 
                 break;
         }
-        this.updateCurrentState();
+        this.set_cost(hitung_cost(this.puzzle));
     }
 
     public boolean canMove(DIRECTION direction) {
@@ -196,27 +176,44 @@ public class Puzzle {
 
     }
 
-    // untuk debugging
-    public void printCurrentState() {
-
-        for(int i = 0; i < 16 ; i++){
-            System.out.print(this.currentState[i] + " ");
-            
-        }
-        System.out.println();
-    }
-
-    public void hitung_cost(){
+    public int hitung_cost(int [][] puzzle){
 
         int gP = 0;
 
-        for(int i = 0; i < 16; i++){
+        int [][] final_state = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
+        
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
 
-            if(this.currentState[i] != i + 1 && this.currentState[i] != 16){
-                gP++;
+                if(puzzle[i][j] != 16){
+                    if(puzzle[i][j] != final_state[i][j]){
+                        gP++;
+                    }
+                }
+                
             }
         }
-        this.cost = gP;
+
+        return gP;
+    }
+
+    public int hitung_cost(Puzzle puzzle){
+
+        int gP = 0;
+
+        int [][] final_state = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
+        
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+
+                if(puzzle.getTile(i, j) != 16){
+                    if(puzzle.getTile(i, j) != final_state[i][j]){
+                        gP++;
+                    }
+                }
+            }
+        } 
+        return gP;
     }
 
     public int get_cost(){
@@ -227,6 +224,10 @@ public class Puzzle {
 
     public void inc_cost(){
         this.cost++;
+    }
+
+    public void set_cost(int _cost){
+        this.cost = _cost;
     }
 
     public void get_x_blank(){
