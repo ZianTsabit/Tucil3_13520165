@@ -222,8 +222,8 @@ public class Puzzle {
 
     }
 
-    public void inc_cost(){
-        this.cost++;
+    public void add_cost(int c){
+        this.cost = this.cost + c;
     }
 
     public void set_cost(int _cost){

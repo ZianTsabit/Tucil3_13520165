@@ -8,9 +8,12 @@ public class BnBSolver {
 
         frontiers.add(puzzleToSolve);
 
+        int r_to_root = 0;
+        
         while(!frontiers.isEmpty()){
 
             Puzzle puzzle = frontiers.poll();
+            r_to_root++;
             puzzle.printPuzzle();
             System.out.println(puzzle.get_cost());
             System.out.println();
@@ -25,6 +28,7 @@ public class BnBSolver {
                     Puzzle newPuzzle = new Puzzle(puzzle);
 
                     newPuzzle.move(gerakan[i]);
+                    newPuzzle.add_cost(r_to_root);
                     frontiers.add(newPuzzle);
 
                 }
