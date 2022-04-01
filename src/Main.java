@@ -55,7 +55,8 @@ public class Main {
         if(opsi == 1){
             System.out.println("Mode input puzzle dari file dipilih !!!");
             System.out.print("Input filename: ");
-            filename = sc.nextLine();
+            Scanner str = new Scanner(System.in);
+            filename = str.nextLine();
 
             PuzzleLoader puzzleloader = new PuzzleLoader();
             Puzzle puzzle;
@@ -63,7 +64,9 @@ public class Main {
             int [][] correctPuzzle;
             int [][] puzzleToSolve;
 
-            puzzleToSolve = puzzleloader.load("../test/test_01.txt");
+            String testPath = "../test/";
+
+            puzzleToSolve = puzzleloader.load(testPath+filename);
             correctPuzzle = buatCorrectPuzzle(puzzleToSolve.length, puzzleToSolve[0].length);
 
             puzzle = new Puzzle(puzzleToSolve, correctPuzzle);
