@@ -1,4 +1,9 @@
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -17,8 +22,36 @@ public class Main {
 
             }
         }
-
         return correctPuzzle;
+    }
+
+    private static int [][] buatRandomPuzzle(int xsize, int ysize){
+
+        int [][] randomPuzzle = new int [xsize][ysize];
+
+        Random rand = new Random();
+
+        List<Integer> list = new ArrayList<>();
+
+        for(int i = 1; i <= 16; ++i){
+            list.add(i);
+        }
+
+        Collections.shuffle(list, rand);
+
+        int counter = 0;
+
+        for(int i = 0; i < xsize; i++){
+            for(int j = 0; j < ysize; j++){
+
+                randomPuzzle[i][j] = list.get(counter);
+                counter++;
+
+            }
+        }
+
+        return randomPuzzle;
+
 
     }
     public static void main(String args[]) throws FileNotFoundException{
@@ -93,6 +126,35 @@ public class Main {
 
         } else if(opsi == 2){
             
+            System.out.println("Mode input random puzzle dipilih !!!");
+
+            Puzzle puzzle;
+            int [][] correctPuzzle;
+            int [][] puzzleToSolve;
+
+            puzzleToSolve = buatRandomPuzzle(4, 4);
+            correctPuzzle = buatCorrectPuzzle(puzzleToSolve.length, puzzleToSolve[0].length);
+            puzzle = new Puzzle(puzzleToSolve, correctPuzzle);
+
+            System.out.println("----------------- Puzzle To Solve ------------------");
+
+            puzzle.printPuzzle();
+            System.out.println();
+
+            if(!puzzle.isReachable()){
+             
+                System.out.println("Puzzle tidak dapat dipecahkan !!!");
+
+            } else {
+
+                System.out.println("----------------- Puzzle Movement ------------------");
+
+                BnBSolver solver = new BnBSolver();
+                Puzzle.DIRECTION[] gerakan = {Puzzle.DIRECTION.RIGHT, Puzzle.DIRECTION.LEFT, 
+                Puzzle.DIRECTION.DOWN, Puzzle.DIRECTION.UP};
+                Puzzle solvedPuzzle = solver.solve(puzzle, gerakan);
+
+            }
 
         } else {
             System.out.print("Mode yang dipilih tidak valid !!!");
