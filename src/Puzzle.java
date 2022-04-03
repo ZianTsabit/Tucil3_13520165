@@ -169,7 +169,7 @@ public class Puzzle {
         return kurangi + X;
     }
 
-public void kurang(){
+    public void kurang(){
 
     int kurangi = 0;
     int [] content = new int[16];
