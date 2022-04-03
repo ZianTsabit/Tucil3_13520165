@@ -8,7 +8,6 @@ public class Puzzle {
     private int [][] correctPuzzle;
     private int cost;
     private int blankX, blankY;
-    // private Node elements;
     
     public Puzzle(){
 
@@ -45,9 +44,13 @@ public class Puzzle {
             for(int j = 0; j < 4; j++){
 
                 if(this.puzzle[i][j] == 16){
-                    System.out.print("-" + " ");
+                    System.out.print("[  ]" + " ");
                 } else {
-                    System.out.print(this.puzzle[i][j] + " ");
+                    if(this.puzzle[i][j] < 10){
+                        System.out.print("[ "+this.puzzle[i][j] +"]"+ " ");
+                    }else{
+                        System.out.print("["+this.puzzle[i][j] +"]"+ " ");
+                    }
                 }
                 
             }
@@ -165,6 +168,39 @@ public class Puzzle {
         
         return kurangi + X;
     }
+
+public void kurang(){
+
+    int kurangi = 0;
+    int [] content = new int[16];
+    int k = 0;
+
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            content[k] = this.puzzle[i][j]; 
+            k++;   
+        }
+    }
+
+    System.out.println("i (ubin) " + " kurang(i)");
+
+    for(int i = 0; i < content.length; i++){
+        for(int j = i; j < content.length ; j++){
+            if(content[j] < content[i]){
+                kurangi++;
+            }
+        }
+        if(content[i] < 10){
+            System.out.println(" "+ content[i] + "         " + kurangi);
+            kurangi = 0;
+        }else{
+            System.out.println(content[i] + "         " + kurangi);
+            kurangi = 0;
+        }
+        
+
+    }
+}
 
     public Boolean isReachable(){
 

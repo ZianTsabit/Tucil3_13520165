@@ -108,6 +108,9 @@ public class Main {
 
             puzzle.printPuzzle();
             System.out.println();
+            puzzle.kurang();
+            System.out.println("Nilai dari KURANG(i) + X : " + puzzle.kurangI());
+            System.out.println();
 
             if(!puzzle.isReachable()){
              
@@ -144,6 +147,7 @@ public class Main {
 
             puzzle.printPuzzle();
             System.out.println();
+            System.out.println("Nilai dari KURANG(i) + X : " + puzzle.kurangI());
 
             if(!puzzle.isReachable()){
              
