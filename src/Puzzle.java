@@ -3,7 +3,6 @@ import java.util.Arrays;
 public class Puzzle {
     
     public enum DIRECTION {UP, DOWN, LEFT, RIGHT}
-
     private final int [][] puzzle;
     private int [][] correctPuzzle;
     private int cost;
@@ -152,8 +151,8 @@ public class Puzzle {
         }
 
         for(int i = 0; i < content.length; i++){
-            for(int j = 0; j < i ; j++){
-                if(content[j] > content[i]){
+            for(int j = i; j < content.length ; j++){
+                if(content[j] < content[i]){
                     kurangi++;
                 }
             }
@@ -169,38 +168,32 @@ public class Puzzle {
         return kurangi + X;
     }
 
-    public void kurang(){
-
-    int kurangi = 0;
-    int [] content = new int[16];
-    int k = 0;
-
-    for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 4; j++){
-            content[k] = this.puzzle[i][j]; 
-            k++;   
-        }
-    }
-
-    System.out.println("i (ubin) " + " kurang(i)");
-
-    for(int i = 0; i < content.length; i++){
-        for(int j = i; j < content.length ; j++){
-            if(content[j] < content[i]){
-                kurangi++;
+    public void kurang(){   
+        int kurangi = 0;
+        int [] content = new int[16];
+        int k = 0;
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                content[k] = this.puzzle[i][j]; 
+                k++;   
             }
         }
-        if(content[i] < 10){
-            System.out.println(" "+ content[i] + "         " + kurangi);
-            kurangi = 0;
-        }else{
-            System.out.println(content[i] + "         " + kurangi);
-            kurangi = 0;
+        System.out.println("i (ubin) " + " kurang(i)");
+        for(int i = 0; i < content.length; i++){
+            for(int j = i; j < content.length ; j++){
+                if(content[j] < content[i]){
+                    kurangi++;
+                }
+            }
+            if(content[i] < 10){
+                System.out.println(" "+ content[i] + "         " + kurangi);
+                kurangi = 0;
+            }else{
+                System.out.println(content[i] + "         " + kurangi);
+                kurangi = 0;
+            }
         }
-        
-
     }
-}
 
     public Boolean isReachable(){
 
