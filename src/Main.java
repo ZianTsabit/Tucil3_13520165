@@ -49,11 +49,20 @@ public class Main {
 
             }
         }
-
         return randomPuzzle;
-
-
     }
+
+    private static void pressAnyKeyToContinue()
+    { 
+           System.out.println("Press Enter key to solve...");
+           try
+           {
+               System.in.read();
+           }  
+           catch(Exception e)
+           {}  
+    }
+
     public static void main(String args[]) throws FileNotFoundException{
         
         // banner
@@ -103,9 +112,11 @@ public class Main {
             correctPuzzle = buatCorrectPuzzle(puzzleToSolve.length, puzzleToSolve[0].length);
 
             puzzle = new Puzzle(puzzleToSolve, correctPuzzle);
-
+            System.out.println();
             System.out.println("----------------- Puzzle To Solve ------------------");
-
+            System.out.println();
+            
+            
             puzzle.printPuzzle();
             System.out.println();
             puzzle.kurang();
@@ -117,9 +128,12 @@ public class Main {
                 System.out.println("Puzzle tidak dapat dipecahkan !!!");
 
             } else {
-
+                
+                pressAnyKeyToContinue();
+                
                 System.out.println("----------------- Puzzle Movement ------------------");
-
+                
+                System.out.println();
                 BnBSolver solver = new BnBSolver();
                 Puzzle.DIRECTION[] gerakan = {Puzzle.DIRECTION.RIGHT, Puzzle.DIRECTION.LEFT, 
                 Puzzle.DIRECTION.DOWN, Puzzle.DIRECTION.UP};
@@ -144,7 +158,7 @@ public class Main {
             puzzle = new Puzzle(puzzleToSolve, correctPuzzle);
 
             System.out.println("----------------- Puzzle To Solve ------------------");
-
+            System.out.println();
             puzzle.printPuzzle();
             System.out.println();
             System.out.println("Nilai dari KURANG(i) + X : " + puzzle.kurangI());
@@ -155,8 +169,10 @@ public class Main {
 
             } else {
 
-                System.out.println("----------------- Puzzle Movement ------------------");
+                pressAnyKeyToContinue();
 
+                System.out.println("----------------- Puzzle Movement ------------------");
+                System.out.println();
                 BnBSolver solver = new BnBSolver();
                 Puzzle.DIRECTION[] gerakan = {Puzzle.DIRECTION.RIGHT, Puzzle.DIRECTION.LEFT, 
                 Puzzle.DIRECTION.DOWN, Puzzle.DIRECTION.UP};
