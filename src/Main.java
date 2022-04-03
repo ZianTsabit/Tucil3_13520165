@@ -27,25 +27,17 @@ public class Main {
     private static int [][] buatRandomPuzzle(int xsize, int ysize){
 
         int [][] randomPuzzle = new int [xsize][ysize];
-
         Random rand = new Random();
-
         List<Integer> list = new ArrayList<>();
-
         for(int i = 1; i <= 16; ++i){
             list.add(i);
         }
-
         Collections.shuffle(list, rand);
-
         int counter = 0;
-
         for(int i = 0; i < xsize; i++){
             for(int j = 0; j < ysize; j++){
-
                 randomPuzzle[i][j] = list.get(counter);
                 counter++;
-
             }
         }
         return randomPuzzle;
@@ -159,6 +151,9 @@ public class Main {
             System.out.println("----------------- Puzzle To Solve ------------------");
             System.out.println();
             puzzle.printPuzzle();
+
+            System.out.println();
+            puzzle.kurang();
             System.out.println();
             System.out.println("Nilai dari KURANG(i) + X : " + puzzle.kurangI());
 
