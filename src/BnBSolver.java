@@ -9,16 +9,20 @@ public class BnBSolver {
         frontiers.add(puzzleToSolve);
 
         int r_to_root = 0;
+        int size = 1;
         
         while(!frontiers.isEmpty()){
 
             Puzzle puzzle = frontiers.poll();
             r_to_root++;
             puzzle.printPuzzle();
-            System.out.println(puzzle.get_cost());
+            System.out.println("Cost simpul saat ini : " + puzzle.get_cost());
             System.out.println();
 
+
+
             if(puzzle.isSolved()){
+                System.out.println("Jumlah simpul yang dibangkitkan : " + size);
                 return puzzle;
             }
 
@@ -30,6 +34,7 @@ public class BnBSolver {
                     newPuzzle.move(gerakan[i]);
                     newPuzzle.add_cost(r_to_root);
                     frontiers.add(newPuzzle);
+                    size++;
 
                 }
             }

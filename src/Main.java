@@ -120,7 +120,11 @@ public class Main {
                 BnBSolver solver = new BnBSolver();
                 Puzzle.DIRECTION[] gerakan = {Puzzle.DIRECTION.RIGHT, Puzzle.DIRECTION.LEFT, 
                 Puzzle.DIRECTION.DOWN, Puzzle.DIRECTION.UP};
+                long startTime = System.nanoTime();
                 Puzzle solvedPuzzle = solver.solve(puzzle, gerakan);
+                long endTime   = System.nanoTime();
+                long totalTime = endTime - startTime;
+                System.out.println("Waktu eksekusi program : " + totalTime/1000000 + " ms");
 
             }
 
@@ -152,8 +156,11 @@ public class Main {
                 BnBSolver solver = new BnBSolver();
                 Puzzle.DIRECTION[] gerakan = {Puzzle.DIRECTION.RIGHT, Puzzle.DIRECTION.LEFT, 
                 Puzzle.DIRECTION.DOWN, Puzzle.DIRECTION.UP};
+                long startTime = System.nanoTime();
                 Puzzle solvedPuzzle = solver.solve(puzzle, gerakan);
-
+                long endTime   = System.nanoTime();
+                long totalTime = endTime - startTime;
+                System.out.println("Waktu eksekusi program : " + totalTime/1000000 + " ms");
             }
 
         } else {
